@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI Chat Assistant · Development demo</title><link rel="stylesheet" href="chat.css"><script src="chat.js" defer></script></head>
+<body><main><header><p class="eyebrow">AI CHAT ASSISTANT</p><h1>Your logistics assistant</h1><p>Development prototype. All orders, inventory and procedures shown here are fictional.</p></header>
+<section aria-label="Chat"><div id="messages" role="log" aria-live="polite" aria-relevant="additions"><article class="assistant"><strong>Assistant</strong><p>Ask about order 45821, product ABC123, shipment SH12345 or the fictional damaged goods procedure.</p></article></div>
+<form id="chatForm"><label for="message">Your question</label><div class="composer"><textarea id="message" maxlength="2000" rows="2" placeholder="Where is order 45821?" required></textarea><button id="send" type="submit">Send</button></div><p class="hint">Enter to send · Shift + Enter for a new line</p></form><p id="status" role="status"></p><p id="error" role="alert"></p><button id="reset" type="button" class="secondary">New conversation</button></section>
+<footer>Read-only · Server-enforced account access · No production systems connected</footer></main></body></html>

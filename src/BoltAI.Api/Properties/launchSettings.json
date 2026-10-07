@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "AI Chat Assistant Demo": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "http://127.0.0.1:5080",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DevAuth__Enabled": "true",
+        "AI__Provider": "Mock"
+      }
+    }
+  }
+}

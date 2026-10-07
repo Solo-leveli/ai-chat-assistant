@@ -1,0 +1,30 @@
+"""Optional browser smoke check. Requires Python Playwright, Chromium CDP on 9223, and demo on 5080."""
+from playwright.sync_api import sync_playwright, expect
+
+with sync_playwright() as p:
+    browser = p.chromium.connect_over_cdp('http://127.0.0.1:9223')
+    context = browser.new_context()
+    page = context.new_page()
+    errors = []
+    page.on('pageerror', lambda e: errors.append(str(e)))
+    page.goto('http://127.0.0.1:5080')
+    field = page.get_by_label('Your question')
+    field.fill('Where is order 45821?')
+    field.press('Enter')
+    expect(page.locator('article.assistant')).to_have_count(2)
+    expect(page.locator('article.assistant').last).to_contain_text('In Transit')
+    field.fill('What is the procedure for damaged goods?')
+    page.get_by_role('button', name='Send', exact=True).click()
+    expect(page.locator('.source')).to_have_count(1)
+    expect(page.locator('article.assistant').last).to_contain_text('FICTIONAL DEMO ONLY')
+    field.fill('order 99999')
+    page.get_by_role('button', name='Send', exact=True).click()
+    expect(page.locator('#error')).to_contain_text('unavailable')
+    page.get_by_role('button', name='New conversation').click()
+    expect(page.locator('article')).to_have_count(1)
+    page.evaluate("() => addMessage('assistant', '<img src=x onerror=alert(1)>')")
+    expect(page.locator('#messages img')).to_have_count(0)
+    assert not errors, errors
+    print('PASS: keyboard send, answer, conversation continuation, sources, denied-order error, reset, text-only rendering; no uncaught errors')
+    context.close()
+    browser.close()
