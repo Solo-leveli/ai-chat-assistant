@@ -6,7 +6,7 @@ A read-only enterprise chatbot foundation for future BOLT integration. This stan
 
 One ASP.NET Core .NET 10 API, with Domain, Application and Infrastructure libraries. Authenticated request → scoped conversation → AI orchestration → approved tools → server authorization → account-filtered repository. The Responses API adapter receives only questions, bounded history, tool schemas and minimized results. It has no database access or credentials.
 
-Implemented: eight read-only business tools; strict typed arguments; fixed server-side development identity; JWT adapter awaiting confirmed BOLT issuer/claims; fictional repositories and account-scoped document search; mock AI and OpenAI Responses adapter; bounded tool loop; safe failures; rate limiting and concurrency limits; expiring bounded conversations; structured audit and metrics; disabled SQL stored-procedure scaffold; accessible plain JavaScript demo.
+Implemented: eight read-only business tools; strict typed arguments; fixed server-side development identity; JWT adapter awaiting confirmed BOLT issuer/claims; fictional repositories and account-scoped document search; mock AI and OpenAI Responses adapter; bounded tool loop; safe failures; rate limiting and concurrency limits; expiring bounded conversations; structured audit and metrics; disabled SQL stored-procedure scaffold; accessible plain JavaScript chat widget.
 
 ```text
 src/BoltAI.Api/             HTTP, authentication, rate limiting, demo
@@ -79,3 +79,9 @@ Recommended next step: confirm BOLT identity/account claims and approved read-on
 ## Visual Studio on Windows
 
 Install Visual Studio 2026 with the ASP.NET and web development workload and .NET 10 SDK 10.0.401 (or a later 10.0.4xx patch). Open BoltAI.sln, set BoltAI.Api as the startup project and select the AI Chat Assistant Demo launch profile. Press F5. The profile runs on loopback with fixed fictional development identity and Mock AI; no credentials are needed. Keep Visual Studio debugging active while opening the site.
+
+## Embedded chat icon
+
+The demo now shows a floating sparkle icon and a header assistant button. Clicking either opens an in-page side panel, keeping the host workspace visible. Close/Escape restores focus and reopening preserves the conversation. Mobile uses a full-screen panel. The provider remains Mock unless explicitly configured otherwise.
+
+For embedding into an existing web application, see [widget integration](docs/widget.md). No real BOLT or Microsoft Teams integration is implied.

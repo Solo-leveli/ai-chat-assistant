@@ -1,13 +1,36 @@
+(() => {
 'use strict';
 let conversationId = null;
 let busy = false;
-const form = document.getElementById('chatForm');
-const input = document.getElementById('message');
-const send = document.getElementById('send');
-const reset = document.getElementById('reset');
-const messages = document.getElementById('messages');
-const status = document.getElementById('status');
-const error = document.getElementById('error');
+const form = document.getElementById('aiChatForm');
+const input = document.getElementById('aiChatMessage');
+const send = document.getElementById('aiChatSend');
+const reset = document.getElementById('aiChatReset');
+const messages = document.getElementById('aiChatMessages');
+const status = document.getElementById('aiChatStatus');
+const error = document.getElementById('aiChatError');
+const panel = document.getElementById('aiAssistantPanel');
+const launcher = document.getElementById('aiAssistantLauncher');
+const openButtons = document.querySelectorAll('[data-ai-open-assistant]');
+let previousFocus = launcher;
+function setPanelOpen(open) {
+  panel.hidden = !open;
+  openButtons.forEach(button => button.setAttribute('aria-expanded', String(open)));
+  launcher.hidden = open;
+  if (open) input.focus();
+  else previousFocus.focus();
+}
+openButtons.forEach(button => button.addEventListener('click', () => {
+  previousFocus = button;
+  setPanelOpen(true);
+}));
+document.getElementById('aiCloseAssistant').addEventListener('click', () => setPanelOpen(false));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !panel.hidden) {
+    event.preventDefault();
+    setPanelOpen(false);
+  }
+});
 function addMessage(role, text, sources = []) {
   const article = document.createElement('article');
   article.className = role;
@@ -50,7 +73,7 @@ form.addEventListener('submit', async event => {
     error.textContent = failure instanceof Error ? failure.message : 'The service is unavailable.';
   } finally {
     busy = false; send.disabled = false; reset.disabled = false;
-    status.textContent = ''; input.focus();
+    status.textContent = ''; if (!panel.hidden) input.focus();
   }
 });
 input.addEventListener('keydown', event => {
@@ -61,3 +84,5 @@ reset.addEventListener('click', () => {
   conversationId = null; messages.replaceChildren(); error.textContent = '';
   addMessage('assistant', 'New conversation. What would you like to verify?'); input.focus();
 });
+
+})();
